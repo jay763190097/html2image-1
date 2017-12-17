@@ -15,7 +15,8 @@ if (system.args.length < 3 || system.args.length > 5) {
     phantom.exit(1);
 } else {
     address = system.args[1];
-    format = system.args[2];
+    output = system.args[2];
+    format = system.args[3];
 
     page.viewportSize = { width: 1024, height: 600 };
     if (format === 'padf') {
@@ -27,10 +28,11 @@ if (system.args.length < 3 || system.args.length > 5) {
             console.log('Unable to load the address!');
             phantom.exit(1);
         } else {
-            output = page.evaluate(function () {
-                return document.querySelector('title').textContent;
-            }) + '.' + format;
-
+            if(!output){
+                output = page.evaluate(function () {
+                    return document.querySelector('title').textContent;
+                }) + '.' + format;
+            }
             window.setTimeout(function () {
                 page.render(output);
                 phantom.exit();
