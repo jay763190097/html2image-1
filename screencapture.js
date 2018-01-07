@@ -7,7 +7,7 @@ var path = require('path');
 var phantomjs = require('phantomjs-prebuilt');
 var binPath = phantomjs.path;
 
-function screenCapture(address, output, format, proxy) {
+function screenCapture(address, output, format, size, proxy) {
     console.log('opened address %s', address);
 
     var childArgs = [
@@ -15,6 +15,7 @@ function screenCapture(address, output, format, proxy) {
         , address
         , output
         , format
+        , size
     ];
 
     if (proxy) {

@@ -7,7 +7,7 @@ var page = require('webpage').create(),
     system = require('system'),
     address, output, format, size;
 
-if (system.args.length < 3 || system.args.length > 5) {
+if (system.args.length < 3 || system.args.length > 6) {
     console.log('Usage: rasterize.js URL filename [paperwidth*paperheight|paperformat] [zoom]');
     console.log('  paper (pdf output) examples: "5in*7.5in", "10cm*20cm", "A4", "Letter"');
     console.log('  image (png/jpg output) examples: "1920px" entire page, window width 1920px');
@@ -17,8 +17,14 @@ if (system.args.length < 3 || system.args.length > 5) {
     address = system.args[1];
     output = system.args[2];
     format = system.args[3];
+    size = system.args[4];
 
-    page.viewportSize = { width: 1024, height: 600 };
+    if(!size || size.split('*').length < 2){
+        page.viewportSize = { width: 1024, height: 600 };
+    } else {
+        var a = size.split('*');
+        page.viewportSize = { width: a[0], height: a[1] };
+    }
     if (format === 'padf') {
         page.paperSize = { format: 'A4', orientation: 'portrait', margin: '1cm' }
     }
